@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee&family=Tektur&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Handjet&display=swap');
+
+body{
+    background: linear-gradient(68.15deg, #0860d2 16.62%, #506786 85.61%)
+}
+
+.titulo{
+    font-family: 'Bungee', cursive;    
+    font-weight: 400;
+    font-size: 50px;
+    color: purple;
+    text-shadow: 3px 2px yellow;
+    text-align: center;}
+
+.principal{
+    color: yellow;
+    margin: 0 auto;
+    font-family: 'Tektur', cursive;
+    text-transform: uppercase;
+    text-align: justify;
+    width: 400px;
+    padding-bottom: 30px;
+
+}
+
+.jogo{
+    text-align: center;
+}
+.comando{
+    color: yellow;
+    text-shadow: 1px 1px purple;
+    font-family: 'Handjet', cursive;
+    text-align: center;
+    font-size: 30px;
+    font-weight: 400;
+    margin-bottom: 60px;
+}
+
+.campoPalpite {
+    border-radius: 5px;
+    background-color: rgb(240, 240, 117);
+    width: 100px; height: 30px;
+    margin-right: 60px;
+}
+
+.envioPalpite{
+    border-radius: 5px;
+    font-family: 'Tektur', cursive;
+    color: purple;
+    background-color: rgb(240, 240, 117);
+    font-weight: 600; 
+    width: 100px; height: 40px;
+}
+
+.parágrafosResultados{
+    font-family: 'Tektur', cursive;
+    color: yellow;
+}
+
+.ultimoResultado{
+    text-align: center;
+    color: rgb(0, 0, 0);
+    text-transform: uppercase;
+}
+
+.botaoReinicio{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    font-family: 'Tektur', cursive;
+    color: purple;
+    background-color: rgb(240, 240, 117);
+    font-weight: 600; 
+
+}
+

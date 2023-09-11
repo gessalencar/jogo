@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <title>adivinhando números</title>
+    <meta charset="utf-8">
+
+    <style>
+      html {
+        font-family: sans-serif;
+      }
+
+      body {
+        width: 50%;
+        max-width: 800px;
+        min-width: 480px;
+        margin: 0 auto;
+      }
+      
+      .form input[type="number"] {
+        width: 200px;
+      }
+
+      .ultimoResultado {
+        color: white;
+        padding: 3px;
+      }
+
+    </style>
+  </head>
+
+  <body>
+    <link rel="stylesheet" href="style.css">
+    <h1 class="titulo">Adivinhando números</h1>
+
+    <p class="principal">O jogo escolhe aleatoriamente um número entre 1 e 100. Adivinhe em até 10 tentativas para ganhar. A cada lance, você vai saber se o palpite está abaixo ou acima do número que você está procurando!</p>
+
+    <div class="jogo">
+      <label for="campoPalpite" class="comando"> CHUTE UM NÚMERO ENTRE 1 E 100</label> 
+      <p></p>
+      <input type="number" min="1" max="100" required id="campoPalpite" class="campoPalpite">
+      <input type="submit" value="ENVIAR" class="envioPalpite">
+    </div>
+
+    <div class="parágrafosResultados">
+      <p class="palpites"></p>
+      <p class="ultimoResultado"></p>
+      <p class="baixoAlto"></p>
+    </div>
+
+    <script>
+
+      // O JS vem aqui
+      
+let numeroAleatorio = Math.floor(Math.random() * 100) + 1;
+const palpites = document.querySelector(".palpites");
+
+const ultimoResultado = document.querySelector(".ultimoResultado");
+const baixoAlto = document.querySelector(".baixoAlto");
+
+const envioPalpite = document.querySelector(".envioPalpite");
+const campoPalpite = document.querySelector(".campoPalpite");
+
+let contagemPalpite = 1;
+let botaoReinicio;
+
+let palpitesArray = [];
+
+function palpiteRepetido(palpite) {
+  return palpitesArray.includes(palpite);
+}
+
+function checagemPalpite() {
+ 
+  var palpiteUsuário = Number (campoPalpite.value);
+  if (contagemPalpite === 1) {
+    palpites.textContent = "Últimos chutes: ";
+  }
+  
+  //não permitir palpites iguais. exibir mensagem quando palpite for repetido; OK
+
+  if (palpiteRepetido(palpiteUsuário)) {
+    alert("Palpite repetido! Tente um número diferente.");
+    campoPalpite.value = "";
+    campoPalpite.focus();
+    return;
+  }
+
+  // Verifica se o palpite está dentro do intervalo permitido (0 a 100)
+  if (palpiteUsuário < 1 || palpiteUsuário > 100) {
+    alert("Por favor, insira um número entre 1 e 100.");
+    campoPalpite.value = "";
+    campoPalpite.focus();
+    return;
+  }
+
+  //organizar palpites em ordem crescente; OK
+
+  palpitesArray.push(palpiteUsuário);
+  palpitesArray.sort((a, b) => a - b);
+  palpites.textContent = "Últimos chutes: " + palpitesArray.join(", ");
+
+  if (palpiteUsuário === numeroAleatorio) {
+    ultimoResultado.textContent = "Arrasou! Temos um(a) vencedor(a)";
+    ultimoResultado.style.backgroundColor = "yellow";
+    baixoAlto.textContent = "";
+    setGameOver();
+  } else if (contagemPalpite === 10) {
+    ultimoResultado.textContent = "Fim de jogo";
+    baixoAlto.textContent = "";
+    setGameOver();
+  } else {
+    ultimoResultado.textContent = "Errado!";
+    ultimoResultado.style.backgroundColor = "purple";
+    if (palpiteUsuário < numeroAleatorio) {
+      baixoAlto.textContent = "O último palpite foi mais baixo do que deveria!";
+    } else if (palpiteUsuário > numeroAleatorio) {
+      baixoAlto.textContent = "O último palpite foi mais alto do que deveria!";
+    }
+  }
+
+  contagemPalpite++;
+  campoPalpite.value = "";
+  campoPalpite.focus();
+  
+}
+
+/*
+- fazer estilo da última parte;
+- arrumar "fim de jogo", reiniciando o game ao terminar tentativas ou acertar;
+*/
+
+envioPalpite.addEventListener("click", checagemPalpite);
+
+// enviar palpite apertando 'enter'; OK
+
+campoPalpite.addEventListener("keydown", function(event) {
+  if (event.key === "Enter") {
+    checagemPalpite();
+  }
+});
+
+function setGameOver() {
+  campoPalpite.disabled = true;
+  envioPalpite.disabled = true;
+  botaoReinicio = document.createElement("button");
+  botaoReinicio.textContent = "Iniciar novo jogo";
+  botaoReinicio.className = "botaoReinicio";
+  document.body.appendChild(botaoReinicio);
+  botaoReinicio.addEventListener("click", reiniciarJogo);
+}
+
+function reiniciarJogo() {
+  contagemPalpite = 1;
+  palpitesArray = [];
+
+  var reiniciarParas = document.querySelectorAll(".palpites, .ultimoResultado, .baixoAlto");
+  for (var i = 0; i < reiniciarParas.length; i++) {
+    reiniciarParas[i].textContent = "";
+  }
+
+  botaoReinicio.parentNode.removeChild(botaoReinicio);
+
+  campoPalpite.disabled = false;
+  envioPalpite.disabled = false;
+  campoPalpite.value = "";
+  campoPalpite.focus();
+
+  ultimoResultado.style.backgroundColor = "white";
+
+  numeroAleatorio = Math.floor(Math.random() * 100) + 1;
+}
+
+
+    </script>
+  </body>
+</html>
